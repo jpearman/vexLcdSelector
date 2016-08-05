@@ -16,17 +16,17 @@
 /*  Definition of the menus and global variables for the autonomous selection  */
 /*-----------------------------------------------------------------------------*/
 
-typedef enum {
+typedef enum vexAlliance {
     kAllianceBlue = 0,
     kAllianceRed
 } vexAlliance;
 
-typedef enum {
+typedef enum vexStartposition {
     kStartHanging = 0,
     kStartMiddle
 } vexStartposition;
 
-typedef enum {
+typedef enum vexLcdMenus {
     kMenuStart    = 0,
 
     kMenuAlliance = 0,
@@ -100,7 +100,7 @@ void
 LcdAutonomousSelection()
 {
     TControllerButtons  button;
-    vexLcdMenus  menu = 0;
+    vexLcdMenus  menu = kMenuStart;
 
     // Turn on backlight
     bLCDBacklight = true;
@@ -198,7 +198,7 @@ task mainTask()
             // when enabled run either autonomous or usercontrol
             if (bIfiAutonomousMode)
                 {
-                StartTask(autonomous);
+                startTask(autonomous);
 
                 // Waiting for autonomous phase to end
                 while (bIfiAutonomousMode && !bIfiRobotDisabled) {
@@ -214,14 +214,15 @@ task mainTask()
                     wait1Msec(25);
                     }
 
+                stopTask(autonomous);
                 allMotorsOff();
 
-                // Stop other taks here
+                // Stop other tasks here
                 // if needed
                 }
             else
                 {
-                StartTask(usercontrol);
+                startTask(usercontrol);
 
                 // Here we repeat loop waiting for user control to end and (optionally) start
                 // of a new competition run
@@ -235,9 +236,10 @@ task mainTask()
                     wait1Msec(25);
                     }
 
+                stopTask(usercontrol);
                 allMotorsOff();
 
-                // Stop other taks here
+                // Stop other tasks here
                 // if needed
                 }
             }

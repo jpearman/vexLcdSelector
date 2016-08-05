@@ -16,17 +16,17 @@
 /*  Definition of the menus and global variables for the autonomous selection  */
 /*-----------------------------------------------------------------------------*/
 
-typedef enum {
+typedef enum vexAlliance {
     kAllianceBlue = 0,
     kAllianceRed
 } vexAlliance;
 
-typedef enum {
+typedef enum vexStartposition {
     kStartHanging = 0,
     kStartMiddle
 } vexStartposition;
 
-typedef enum {
+typedef enum vexLcdMenus {
     kMenuStart    = 0,
 
     kMenuAlliance = 0,
@@ -102,7 +102,7 @@ void
 LcdAutonomousSelection()
 {
     TControllerButtons  button;
-    vexLcdMenus  menu = 0;
+    vexLcdMenus  menu = kMenuStart;
 
     // Turn on backlight
     bLCDBacklight = true;
